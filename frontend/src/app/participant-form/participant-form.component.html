@@ -1,0 +1,44 @@
+<article class="panel">
+  <div class="panel-badge">Paso 2</div>
+  <h2>Completa tus datos</h2>
+  <p class="panel-copy">
+    Este formulario es solo para la demo visual. La informacion se guarda localmente.
+  </p>
+
+  <form [formGroup]="participantForm" (ngSubmit)="onSubmit()" novalidate class="form-grid">
+    <label class="field">
+      <span>Nombre</span>
+      <input type="text" formControlName="firstName" placeholder="Ej. Ana" />
+      <small *ngIf="hasError('firstName')">El nombre es obligatorio.</small>
+    </label>
+
+    <label class="field">
+      <span>Apellido</span>
+      <input type="text" formControlName="lastName" placeholder="Ej. Perez" />
+      <small *ngIf="hasError('lastName')">El apellido es obligatorio.</small>
+    </label>
+
+    <label class="field">
+      <span>Cedula</span>
+      <input type="text" formControlName="documentId" placeholder="Ej. V-12345678" />
+      <small *ngIf="hasError('documentId')">La cedula es obligatoria.</small>
+    </label>
+
+    <label class="field">
+      <span>Telefono</span>
+      <input type="tel" formControlName="phone" placeholder="Ej. 0412-0000000" />
+      <small *ngIf="hasError('phone')">El telefono es obligatorio.</small>
+    </label>
+
+    <label class="field field-full">
+      <span>Correo</span>
+      <input type="email" formControlName="email" placeholder="Ej. correo@ejemplo.com" />
+      <small *ngIf="hasError('email', 'required')">El correo es obligatorio.</small>
+      <small *ngIf="hasError('email', 'email')">Ingresa un correo valido.</small>
+    </label>
+
+    <button type="submit" class="primary-button" [disabled]="participantForm.invalid">
+      Participar
+    </button>
+  </form>
+</article>

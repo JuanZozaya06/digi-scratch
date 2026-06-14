@@ -1,0 +1,34 @@
+<article class="panel">
+  <div class="panel-badge">Paso 5</div>
+  <h2>Resumen del participante</h2>
+  <p class="panel-copy">
+    Vista final para revisar los datos capturados y el resultado generado en la demo.
+  </p>
+
+  <dl class="summary-grid">
+    <div>
+      <dt>Nombre y apellido</dt>
+      <dd>{{ participant.firstName }} {{ participant.lastName }}</dd>
+    </div>
+    <div>
+      <dt>Cedula</dt>
+      <dd>{{ participant.documentId }}</dd>
+    </div>
+    <div>
+      <dt>Telefono</dt>
+      <dd>{{ participant.phone }}</dd>
+    </div>
+    <div>
+      <dt>Correo</dt>
+      <dd>{{ participant.email }}</dd>
+    </div>
+    <div class="summary-result">
+      <dt>Resultado obtenido</dt>
+      <dd>{{ result.label }}</dd>
+    </div>
+  </dl>
+
+  <button type="button" class="primary-button" (click)="restart.emit()">
+    Reiniciar demo
+  </button>
+</article>

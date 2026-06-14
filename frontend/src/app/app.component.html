@@ -1,0 +1,47 @@
+<main class="app-shell">
+  <section class="demo-frame">
+    <header class="demo-header">
+      <span class="demo-kicker">Wireframe Angular</span>
+      <button
+        *ngIf="currentStep !== 'landing' || participant || result"
+        type="button"
+        class="demo-reset"
+        (click)="restartDemo()"
+      >
+        Reiniciar demo
+      </button>
+    </header>
+
+    <app-landing-intro
+      *ngIf="currentStep === 'landing'"
+      (start)="startDemo()"
+    ></app-landing-intro>
+
+    <app-participant-form
+      *ngIf="currentStep === 'form'"
+      [initialValue]="participant"
+      (submitted)="handleParticipantSubmitted($event)"
+    ></app-participant-form>
+
+    <app-scratch-card
+      *ngIf="currentStep === 'scratch'"
+      [participant]="participant"
+      (scratched)="revealScratchResult()"
+    ></app-scratch-card>
+
+    <app-result
+      *ngIf="currentStep === 'result' && result"
+      [result]="result"
+      (viewSummary)="openSummary()"
+      (finish)="finishDemo()"
+      (restart)="restartDemo()"
+    ></app-result>
+
+    <app-participant-summary
+      *ngIf="currentStep === 'summary' && participant && result"
+      [participant]="participant"
+      [result]="result"
+      (restart)="restartDemo()"
+    ></app-participant-summary>
+  </section>
+</main>

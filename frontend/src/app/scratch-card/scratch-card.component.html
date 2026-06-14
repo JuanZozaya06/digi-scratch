@@ -1,0 +1,16 @@
+<article class="panel">
+  <div class="panel-badge">Paso 3</div>
+  <h2>Tarjeta de raspa y gana</h2>
+  <p class="panel-copy">
+    {{ participant?.firstName || 'Participante' }}, toca la tarjeta para descubrir tu resultado.
+  </p>
+
+  <button type="button" class="scratch-card" (click)="scratched.emit()">
+    <span class="scratch-label">Raspa aqui</span>
+    <span class="scratch-hint">Toque simulado, sin animacion real</span>
+  </button>
+
+  <button type="button" class="primary-button" (click)="scratched.emit()">
+    Raspar
+  </button>
+</article>
