@@ -5,8 +5,6 @@ import { AppComponent } from './app.component';
 import { LandingIntroComponent } from './landing-intro/landing-intro.component';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
 import { ScratchCardComponent } from './scratch-card/scratch-card.component';
-import { ResultComponent } from './result/result.component';
-import { ParticipantSummaryComponent } from './participant-summary/participant-summary.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -15,9 +13,7 @@ describe('AppComponent', () => {
         AppComponent,
         LandingIntroComponent,
         ParticipantFormComponent,
-        ScratchCardComponent,
-        ResultComponent,
-        ParticipantSummaryComponent
+        ScratchCardComponent
       ],
       imports: [ReactiveFormsModule]
     }).compileComponents();

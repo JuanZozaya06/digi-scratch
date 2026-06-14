@@ -1,28 +1,31 @@
 :host {
   display: block;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .app-shell {
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 12px;
   background: linear-gradient(180deg, #f5f7f9 0%, #e8edf2 100%);
+  display: grid;
+  place-items: center;
 }
 
 .experience-frame {
+  width: 100%;
   max-width: 480px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  justify-content: center;
 }
 
 .experience-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
   min-height: 44px;
+  text-align: center;
 }
 
 .experience-kicker {
@@ -31,23 +34,6 @@
   letter-spacing: 0;
   text-transform: uppercase;
   color: #4b5967;
-}
-
-.reset-button {
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #325d88;
-  background: rgba(50, 93, 136, 0.1);
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.reset-button:hover {
-  background: rgba(50, 93, 136, 0.16);
-  transform: translateY(-1px);
 }
 
 @media (min-width: 640px) {

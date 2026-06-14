@@ -1,16 +1,60 @@
-<article class="panel">
-  <div class="panel-badge">Tu tarjeta</div>
-  <h2>Raspa y descubre</h2>
-  <p class="panel-copy">
-    {{ participant?.firstName || 'Participante' }}, toca la tarjeta para descubrir tu resultado.
-  </p>
+<article class="panel" [class.panel-revealed]="result">
+  <div class="panel-badge">{{ result ? 'Resultado' : 'Tu tarjeta' }}</div>
 
-  <button type="button" class="scratch-card" (click)="scratched.emit()">
-    <span class="scratch-label">Raspa aquí</span>
-    <span class="scratch-hint">Toca la tarjeta o presiona el botón</span>
-  </button>
+  <ng-container *ngIf="!result">
+    <h2>Raspa y descubre</h2>
+    <p class="panel-copy">
+      {{ participant?.firstName || 'Participante' }}, desliza sobre la tarjeta para conocer tu resultado.
+    </p>
 
-  <button type="button" class="primary-button" (click)="scratched.emit()">
-    Raspar
-  </button>
+    <button type="button" class="scratch-card" (click)="scratched.emit()">
+      <span class="scratch-label">Raspa aquí</span>
+      <span class="scratch-hint">Desliza sobre esta zona</span>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="result">
+    <div class="result-state" [class.result-state-winner]="result.isWinner">
+      {{ result.isWinner ? 'Ganador' : 'Participación' }}
+    </div>
+
+    <h2>{{ result.isWinner ? '¡Felicidades!' : 'Gracias por participar' }}</h2>
+
+    <p class="panel-copy" *ngIf="result.isWinner">
+      Ganaste {{ result.prizeName }}.
+    </p>
+    <p class="panel-copy" *ngIf="!result.isWinner">
+      {{ result.label }}
+    </p>
+
+    <p class="result-note" *ngIf="result.isWinner">
+      Dirígete al stand y muestra esta pantalla para validar tus datos y reclamar tu premio.
+    </p>
+    <p class="result-note" *ngIf="!result.isWinner">
+      Tu participación quedó registrada. Gracias por visitarnos.
+    </p>
+
+    <dl class="participant-card" *ngIf="participant">
+      <div>
+        <dt>Participante</dt>
+        <dd>{{ participant.firstName }} {{ participant.lastName }}</dd>
+      </div>
+      <div>
+        <dt>Cédula</dt>
+        <dd>{{ participant.documentId }}</dd>
+      </div>
+      <div>
+        <dt>Teléfono</dt>
+        <dd>{{ participant.phone }}</dd>
+      </div>
+      <div>
+        <dt>Correo</dt>
+        <dd>{{ participant.email }}</dd>
+      </div>
+      <div>
+        <dt>Resultado</dt>
+        <dd>{{ result.label }}</dd>
+      </div>
+    </dl>
+  </ng-container>
 </article>

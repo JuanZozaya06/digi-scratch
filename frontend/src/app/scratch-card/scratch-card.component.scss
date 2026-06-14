@@ -1,10 +1,15 @@
 .panel {
+  width: 100%;
   background: #ffffff;
   border: 1px solid #d9e1ea;
   border-radius: 8px;
   box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
   padding: 20px;
   text-align: center;
+}
+
+.panel-revealed {
+  border-color: #c7d8ea;
 }
 
 .panel-badge {
@@ -21,19 +26,29 @@
 
 h2 {
   margin: 18px 0 10px;
-  font-size: 1.8rem;
+  font-size: 1.85rem;
+  line-height: 1.15;
 }
 
-.panel-copy {
-  margin: 0 auto 24px;
+.panel-copy,
+.result-note {
+  margin: 0 auto;
   max-width: 28rem;
   color: #52606d;
   line-height: 1.6;
 }
 
+.panel-copy {
+  margin-bottom: 22px;
+}
+
+.result-note {
+  margin-top: 10px;
+}
+
 .scratch-card {
   width: 100%;
-  min-height: 220px;
+  min-height: 260px;
   border: 1px dashed #bcc8d5;
   border-radius: 8px;
   background:
@@ -64,17 +79,53 @@ h2 {
   color: #52606d;
 }
 
-.primary-button {
-  width: 100%;
-  margin-top: 18px;
-  border: 0;
+.result-state {
+  width: 88px;
+  height: 88px;
+  margin: 20px auto 18px;
   border-radius: 8px;
-  padding: 16px;
-  background: #5d88b1;
-  color: #ffffff;
-  font-size: 1rem;
+  background: linear-gradient(180deg, #f0f3f6 0%, #dce3ea 100%);
+  display: grid;
+  place-items: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #52606d;
+}
+
+.result-state-winner {
+  background: linear-gradient(180deg, #dbe8f4 0%, #bdd2e7 100%);
+  color: #31577d;
+}
+
+.participant-card {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0 0;
+  text-align: left;
+}
+
+.participant-card div {
+  padding: 10px 12px;
+  border: 1px solid #e1e8ef;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.participant-card dt {
+  margin: 0 0 4px;
+  color: #7b8794;
+  font-size: 0.7rem;
   font-weight: 700;
-  cursor: pointer;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.participant-card dd {
+  margin: 0;
+  color: #1f2933;
+  font-size: 0.86rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 @media (min-width: 560px) {
@@ -83,10 +134,15 @@ h2 {
   }
 
   .scratch-card {
-    min-height: 280px;
+    min-height: 300px;
   }
 
-  .scratch-label {
-    font-size: 1.7rem;
+  .participant-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .participant-card div:first-child,
+  .participant-card div:last-child {
+    grid-column: 1 / -1;
   }
 }

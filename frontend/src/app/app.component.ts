@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Participant, PrizeResult } from './models/promotion.models';
 
-type FlowStep = 'landing' | 'form' | 'scratch' | 'result' | 'summary';
+type FlowStep = 'landing' | 'form' | 'scratch';
 
 interface PersistedPromotionState {
   participant: Participant | null;
@@ -59,12 +59,7 @@ export class AppComponent implements OnInit {
     this.participant = savedState.participant;
     this.result = savedState.result;
 
-    if (savedState.result) {
-      this.currentStep = savedState.step === 'summary' ? 'summary' : 'result';
-      return;
-    }
-
-    if (savedState.participant) {
+    if (savedState.participant || savedState.result) {
       this.currentStep = 'scratch';
     }
   }
@@ -82,26 +77,13 @@ export class AppComponent implements OnInit {
   }
 
   revealScratchResult(): void {
+    if (this.result) {
+      return;
+    }
+
     this.result = this.pickRandomResult();
-    this.currentStep = 'result';
+    this.currentStep = 'scratch';
     this.persistState();
-  }
-
-  openSummary(): void {
-    this.currentStep = 'summary';
-    this.persistState();
-  }
-
-  finishPromotion(): void {
-    this.currentStep = 'summary';
-    this.persistState();
-  }
-
-  restartPromotion(): void {
-    this.participant = null;
-    this.result = null;
-    this.currentStep = 'landing';
-    localStorage.removeItem(this.storageKey);
   }
 
   private pickRandomResult(): PrizeResult {

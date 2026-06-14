@@ -14,4 +14,5 @@
 ## Ejecucion
 
 - Instalar dependencias dentro de `frontend/` con `npm install`.
-- Levantar la app con `npm start`.
+- Validar cambios con `npm run build`.
+- No levantar `ng serve` ni `npm start` para validar; el build es suficiente.
