@@ -21,5 +21,14 @@
       [result]="result"
       (scratched)="revealScratchResult()"
     ></app-scratch-card>
+
+    <button
+      *ngIf="currentStep !== 'landing' || participant || result"
+      type="button"
+      class="contest-reset"
+      (click)="restartContest()"
+    >
+      Reiniciar concurso
+    </button>
   </section>
 </main>

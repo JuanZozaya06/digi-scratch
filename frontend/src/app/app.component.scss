@@ -36,6 +36,24 @@
   color: #4b5967;
 }
 
+.contest-reset {
+  width: 100%;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.74);
+  color: #31577d;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.contest-reset:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
 @media (min-width: 640px) {
   .app-shell {
     padding: 24px 16px;

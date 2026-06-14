@@ -86,6 +86,13 @@ export class AppComponent implements OnInit {
     this.persistState();
   }
 
+  restartContest(): void {
+    this.participant = null;
+    this.result = null;
+    this.currentStep = 'landing';
+    localStorage.removeItem(this.storageKey);
+  }
+
   private pickRandomResult(): PrizeResult {
     const randomIndex = Math.floor(Math.random() * this.mockResults.length);
     return this.mockResults[randomIndex];
