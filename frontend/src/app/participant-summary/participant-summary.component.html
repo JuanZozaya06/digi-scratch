@@ -1,8 +1,8 @@
 <article class="panel">
-  <div class="panel-badge">Paso 5</div>
-  <h2>Resumen del participante</h2>
+  <div class="panel-badge">Confirmación</div>
+  <h2>Datos de participación</h2>
   <p class="panel-copy">
-    Vista final para revisar los datos capturados y el resultado generado en la demo.
+    Conserva esta información para validar tu participación en el stand.
   </p>
 
   <dl class="summary-grid">
@@ -11,11 +11,11 @@
       <dd>{{ participant.firstName }} {{ participant.lastName }}</dd>
     </div>
     <div>
-      <dt>Cedula</dt>
+      <dt>Cédula</dt>
       <dd>{{ participant.documentId }}</dd>
     </div>
     <div>
-      <dt>Telefono</dt>
+      <dt>Teléfono</dt>
       <dd>{{ participant.phone }}</dd>
     </div>
     <div>
@@ -29,6 +29,6 @@
   </dl>
 
   <button type="button" class="primary-button" (click)="restart.emit()">
-    Reiniciar demo
+    Nueva participación
   </button>
 </article>

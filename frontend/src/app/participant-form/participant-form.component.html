@@ -1,8 +1,8 @@
 <article class="panel">
-  <div class="panel-badge">Paso 2</div>
-  <h2>Completa tus datos</h2>
+  <div class="panel-badge">Tus datos</div>
+  <h2>Registra tu participación</h2>
   <p class="panel-copy">
-    Este formulario es solo para la demo visual. La informacion se guarda localmente.
+    Completa la información para asociar el resultado a tu participación.
   </p>
 
   <form [formGroup]="participantForm" (ngSubmit)="onSubmit()" novalidate class="form-grid">
@@ -14,27 +14,52 @@
 
     <label class="field">
       <span>Apellido</span>
-      <input type="text" formControlName="lastName" placeholder="Ej. Perez" />
+      <input type="text" formControlName="lastName" placeholder="Ej. Pérez" />
       <small *ngIf="hasError('lastName')">El apellido es obligatorio.</small>
     </label>
 
-    <label class="field">
-      <span>Cedula</span>
-      <input type="text" formControlName="documentId" placeholder="Ej. V-12345678" />
-      <small *ngIf="hasError('documentId')">La cedula es obligatoria.</small>
-    </label>
+    <div class="field document-field">
+      <span>Cédula</span>
+      <div class="document-row">
+        <select formControlName="documentPrefix" aria-label="Prefijo de cédula">
+          <option *ngFor="let prefix of documentPrefixes" [value]="prefix">
+            {{ prefix }}
+          </option>
+        </select>
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="9"
+          formControlName="documentNumber"
+          placeholder="12345678"
+          (input)="normalizeDocumentNumber()"
+        />
+      </div>
+      <small *ngIf="hasError('documentNumber', 'required')">La cédula es obligatoria.</small>
+      <small *ngIf="hasError('documentNumber', 'pattern')">Ingresa solo números, entre 6 y 9 dígitos.</small>
+    </div>
 
     <label class="field">
-      <span>Telefono</span>
-      <input type="tel" formControlName="phone" placeholder="Ej. 0412-0000000" />
-      <small *ngIf="hasError('phone')">El telefono es obligatorio.</small>
+      <span>Teléfono</span>
+      <input
+        type="tel"
+        inputmode="numeric"
+        maxlength="12"
+        formControlName="phone"
+        placeholder="0412-1234567"
+        (input)="formatPhone()"
+      />
+      <small *ngIf="hasError('phone', 'required')">El teléfono es obligatorio.</small>
+      <small *ngIf="hasError('phone', 'phonePrefix')">
+        Usa 0414, 0424, 0416, 0426, 0412, 0422 o un prefijo 02XX.
+      </small>
     </label>
 
     <label class="field field-full">
       <span>Correo</span>
       <input type="email" formControlName="email" placeholder="Ej. correo@ejemplo.com" />
       <small *ngIf="hasError('email', 'required')">El correo es obligatorio.</small>
-      <small *ngIf="hasError('email', 'email')">Ingresa un correo valido.</small>
+      <small *ngIf="hasError('email', 'email')">Ingresa un correo válido.</small>
     </label>
 
     <button type="submit" class="primary-button" [disabled]="participantForm.invalid">

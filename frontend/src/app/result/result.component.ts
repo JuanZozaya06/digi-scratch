@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PrizeResult } from '../models/demo.models';
+import { PrizeResult } from '../models/promotion.models';
 
 @Component({
   selector: 'app-result',

@@ -1,22 +1,22 @@
 .panel {
   background: #ffffff;
   border: 1px solid #d9e1ea;
-  border-radius: 28px;
-  box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
-  padding: 28px;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
+  padding: 20px;
   text-align: center;
 }
 
 .panel-badge {
   display: inline-flex;
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #edf3f8;
   color: #40688d;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 h2 {
@@ -33,9 +33,9 @@ h2 {
 
 .scratch-card {
   width: 100%;
-  min-height: 280px;
+  min-height: 220px;
   border: 1px dashed #bcc8d5;
-  border-radius: 28px;
+  border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.7), transparent),
     linear-gradient(180deg, #d5dce4 0%, #bcc5cf 100%);
@@ -68,7 +68,7 @@ h2 {
   width: 100%;
   margin-top: 18px;
   border: 0;
-  border-radius: 18px;
+  border-radius: 8px;
   padding: 16px;
   background: #5d88b1;
   color: #ffffff;
@@ -77,14 +77,13 @@ h2 {
   cursor: pointer;
 }
 
-@media (max-width: 520px) {
+@media (min-width: 560px) {
   .panel {
-    padding: 22px 18px;
-    border-radius: 24px;
+    padding: 28px;
   }
 
   .scratch-card {
-    min-height: 240px;
+    min-height: 280px;
   }
 
   .scratch-label {

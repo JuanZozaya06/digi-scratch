@@ -8,7 +8,7 @@
 ## Desarrollo
 
 - Usa Angular con `NgModules`, no standalone components.
-- Mantener toda la data de la demo en mocks locales o `localStorage`.
+- Mantener toda la data en mocks locales o `localStorage`.
 - Evitar dependencias externas innecesarias.
 
 ## Ejecucion

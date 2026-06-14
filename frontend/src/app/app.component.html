@@ -1,20 +1,20 @@
 <main class="app-shell">
-  <section class="demo-frame">
-    <header class="demo-header">
-      <span class="demo-kicker">Wireframe Angular</span>
+  <section class="experience-frame">
+    <header class="experience-header">
+      <span class="experience-kicker">Raspa y gana</span>
       <button
         *ngIf="currentStep !== 'landing' || participant || result"
         type="button"
-        class="demo-reset"
-        (click)="restartDemo()"
+        class="reset-button"
+        (click)="restartPromotion()"
       >
-        Reiniciar demo
+        Nueva participación
       </button>
     </header>
 
     <app-landing-intro
       *ngIf="currentStep === 'landing'"
-      (start)="startDemo()"
+      (start)="startPromotion()"
     ></app-landing-intro>
 
     <app-participant-form
@@ -33,15 +33,15 @@
       *ngIf="currentStep === 'result' && result"
       [result]="result"
       (viewSummary)="openSummary()"
-      (finish)="finishDemo()"
-      (restart)="restartDemo()"
+      (finish)="finishPromotion()"
+      (restart)="restartPromotion()"
     ></app-result>
 
     <app-participant-summary
       *ngIf="currentStep === 'summary' && participant && result"
       [participant]="participant"
       [result]="result"
-      (restart)="restartDemo()"
+      (restart)="restartPromotion()"
     ></app-participant-summary>
   </section>
 </main>

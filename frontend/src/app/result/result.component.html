@@ -2,7 +2,7 @@
   <div class="panel-badge">{{ result.isWinner ? 'Premio' : 'Resultado' }}</div>
 
   <div class="result-state" [class.result-state-winner]="result.isWinner">
-    {{ result.isWinner ? 'Ganador' : 'Demo' }}
+    {{ result.isWinner ? 'Ganador' : 'Participación' }}
   </div>
 
   <h2>{{ result.isWinner ? '¡Felicidades!' : 'Gracias por participar' }}</h2>
@@ -15,7 +15,7 @@
   </p>
 
   <p class="result-note" *ngIf="result.isWinner">
-    Dirigete al stand para validar tus datos y retirar tu premio.
+    Dirígete al stand para validar tus datos y retirar tu premio.
   </p>
 
   <button
@@ -37,6 +37,6 @@
   </button>
 
   <button type="button" class="secondary-button" (click)="restart.emit()">
-    Reiniciar demo
+    Nueva participación
   </button>
 </article>

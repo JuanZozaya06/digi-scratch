@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Participant, PrizeResult } from './models/demo.models';
+import { Participant, PrizeResult } from './models/promotion.models';
 
 type FlowStep = 'landing' | 'form' | 'scratch' | 'result' | 'summary';
 
-interface PersistedDemoState {
+interface PersistedPromotionState {
   participant: Participant | null;
   result: PrizeResult | null;
   step: FlowStep;
@@ -15,15 +15,15 @@ interface PersistedDemoState {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private readonly storageKey = 'digi-scratch-demo-state';
+  private readonly storageKey = 'digi-scratch-promotion-state';
   private readonly mockResults: PrizeResult[] = [
     { id: 'try-again', label: 'Sigue intentando', isWinner: false },
     { id: 'thanks', label: 'Gracias por participar', isWinner: false },
     {
       id: 'sticker',
-      label: 'Ganaste una calcomania',
+      label: 'Ganaste una calcomanía',
       isWinner: true,
-      prizeName: 'una calcomania'
+      prizeName: 'una calcomanía'
     },
     {
       id: 'bracelet',
@@ -39,9 +39,9 @@ export class AppComponent implements OnInit {
     },
     {
       id: 'ball',
-      label: 'Ganaste un balon del Mundial',
+      label: 'Ganaste un balón del Mundial',
       isWinner: true,
-      prizeName: 'un balon del Mundial'
+      prizeName: 'un balón del Mundial'
     }
   ];
 
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  startDemo(): void {
+  startPromotion(): void {
     this.currentStep = 'form';
     this.persistState();
   }
@@ -92,12 +92,12 @@ export class AppComponent implements OnInit {
     this.persistState();
   }
 
-  finishDemo(): void {
+  finishPromotion(): void {
     this.currentStep = 'summary';
     this.persistState();
   }
 
-  restartDemo(): void {
+  restartPromotion(): void {
     this.participant = null;
     this.result = null;
     this.currentStep = 'landing';
@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
   }
 
   private persistState(): void {
-    const state: PersistedDemoState = {
+    const state: PersistedPromotionState = {
       participant: this.participant,
       result: this.result,
       step: this.currentStep
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem(this.storageKey, JSON.stringify(state));
   }
 
-  private readState(): PersistedDemoState | null {
+  private readState(): PersistedPromotionState | null {
     const rawState = localStorage.getItem(this.storageKey);
 
     if (!rawState) {
@@ -127,7 +127,7 @@ export class AppComponent implements OnInit {
     }
 
     try {
-      return JSON.parse(rawState) as PersistedDemoState;
+      return JSON.parse(rawState) as PersistedPromotionState;
     } catch {
       localStorage.removeItem(this.storageKey);
       return null;

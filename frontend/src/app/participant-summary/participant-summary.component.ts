@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Participant, PrizeResult } from '../models/demo.models';
+import { Participant, PrizeResult } from '../models/promotion.models';
 
 @Component({
   selector: 'app-participant-summary',

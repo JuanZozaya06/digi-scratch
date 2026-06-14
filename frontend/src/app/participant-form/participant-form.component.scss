@@ -1,21 +1,21 @@
 .panel {
   background: #ffffff;
   border: 1px solid #d9e1ea;
-  border-radius: 28px;
-  box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
-  padding: 28px;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
+  padding: 20px;
 }
 
 .panel-badge {
   display: inline-flex;
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #edf3f8;
   color: #40688d;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 h2 {
@@ -31,8 +31,8 @@ h2 {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
 
 .field {
@@ -47,17 +47,19 @@ h2 {
   color: #364152;
 }
 
-.field input {
+.field input,
+.field select {
   width: 100%;
   border: 1px solid #cbd5df;
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 14px 16px;
   background: #f9fbfc;
   color: #1f2933;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.field input:focus {
+.field input:focus,
+.field select:focus {
   outline: none;
   border-color: #6d98bf;
   box-shadow: 0 0 0 3px rgba(109, 152, 191, 0.16);
@@ -73,10 +75,31 @@ h2 {
   grid-column: 1 / -1;
 }
 
+.document-row {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 8px;
+}
+
+.document-row select {
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, #52606d 50%),
+    linear-gradient(135deg, #52606d 50%, transparent 50%),
+    #f9fbfc;
+  background-position:
+    calc(100% - 18px) 19px,
+    calc(100% - 13px) 19px,
+    0 0;
+  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px, 100%;
+  font-weight: 700;
+}
+
 .primary-button {
   margin-top: 8px;
   border: 0;
-  border-radius: 18px;
+  border-radius: 8px;
   padding: 16px;
   background: #5d88b1;
   color: #ffffff;
@@ -95,13 +118,12 @@ h2 {
   transform: translateY(-1px);
 }
 
-@media (max-width: 520px) {
+@media (min-width: 560px) {
   .panel {
-    padding: 22px 18px;
-    border-radius: 24px;
+    padding: 28px;
   }
 
   .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Participant } from '../models/demo.models';
+import { Participant } from '../models/promotion.models';
 
 @Component({
   selector: 'app-scratch-card',

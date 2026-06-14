@@ -1,9 +1,9 @@
 .panel {
   background: #ffffff;
   border: 1px solid #d9e1ea;
-  border-radius: 28px;
-  box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
-  padding: 28px;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
+  padding: 20px;
   text-align: center;
 }
 
@@ -15,20 +15,20 @@
 .panel-badge {
   display: inline-flex;
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #edf3f8;
   color: #40688d;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 .result-state {
   width: 96px;
   height: 96px;
   margin: 24px auto 18px;
-  border-radius: 28px;
+  border-radius: 8px;
   background: linear-gradient(180deg, #f0f3f6 0%, #dce3ea 100%);
   display: grid;
   place-items: center;
@@ -62,7 +62,7 @@ h2 {
 .primary-button,
 .secondary-button {
   width: 100%;
-  border-radius: 18px;
+  border-radius: 8px;
   padding: 16px;
   font-size: 1rem;
   font-weight: 700;
@@ -83,9 +83,8 @@ h2 {
   color: #40688d;
 }
 
-@media (max-width: 520px) {
+@media (min-width: 560px) {
   .panel {
-    padding: 22px 18px;
-    border-radius: 24px;
+    padding: 28px;
   }
 }
