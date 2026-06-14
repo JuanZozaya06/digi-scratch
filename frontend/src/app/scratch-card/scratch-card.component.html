@@ -1,4 +1,9 @@
-<article class="panel" [class.panel-revealed]="scratchComplete || showInstructions">
+<article class="panel ticket" [class.panel-revealed]="scratchComplete || showInstructions">
+  <div class="ticket-strip" aria-hidden="true">
+    <span>Ticket promocional</span>
+    <span>Serie A-0248</span>
+  </div>
+
   <div class="panel-badge">{{ showInstructions ? 'Reclamo de premio' : 'Tu tarjeta' }}</div>
 
   <ng-container *ngIf="!showInstructions">
@@ -6,6 +11,8 @@
     <p class="panel-copy">
       {{ participant?.firstName || 'Participante' }}, desliza sobre la tarjeta para revelar tu resultado.
     </p>
+
+    <div class="ticket-divider" aria-hidden="true"></div>
 
     <div class="scratch-stage">
       <div class="prize-message" *ngIf="result">
@@ -18,9 +25,10 @@
       </div>
 
       <canvas
-        *ngIf="result && !scratchComplete"
+        *ngIf="result && scratchLayerVisible && !showInstructions"
         #scratchCanvas
         class="scratch-layer"
+        [class.scratch-layer-fading]="scratchLayerFading"
         (pointerdown)="startScratch($event)"
         (pointermove)="moveScratch($event)"
         (pointerup)="stopScratch()"
@@ -30,7 +38,7 @@
     </div>
 
     <p class="scratch-progress" *ngIf="!scratchComplete">
-      Raspa la mayor parte de la tarjeta para continuar.
+      Raspa al menos la mitad del ticket para continuar.
     </p>
 
     <button
@@ -44,13 +52,15 @@
   </ng-container>
 
   <ng-container *ngIf="showInstructions && result && participant">
+    <div class="ticket-divider" aria-hidden="true"></div>
+
     <div class="result-state result-state-winner">
       Ganador
     </div>
 
     <h2>Reclama tu premio</h2>
     <p class="panel-copy">
-      Ganaste {{ result.prizeName }}. Dirígete al stand y muestra esta pantalla para validar tus datos.
+      Ganaste {{ result.prizeName }}. Dirígete al stand con tu cédula y muestra esta pantalla para validar tus datos.
     </p>
 
     <dl class="participant-card">

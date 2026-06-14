@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   ViewChild
@@ -16,7 +17,7 @@ import { Participant, PrizeResult } from '../models/promotion.models';
   templateUrl: './scratch-card.component.html',
   styleUrls: ['./scratch-card.component.scss']
 })
-export class ScratchCardComponent implements AfterViewInit, OnChanges {
+export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('scratchCanvas') scratchCanvas?: ElementRef<HTMLCanvasElement>;
 
   @Input() participant: Participant | null = null;
@@ -27,18 +28,32 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges {
   @Output() scratched = new EventEmitter<void>();
   @Output() instructionsRequested = new EventEmitter<void>();
 
+  scratchLayerVisible = true;
+  scratchLayerFading = false;
+
   private canvasContext: CanvasRenderingContext2D | null = null;
   private isScratching = false;
   private hasEmittedCompletion = false;
-  private readonly revealThreshold = 0.75;
+  private fadeTimer: ReturnType<typeof window.setTimeout> | null = null;
+  private readonly revealThreshold = 0.5;
 
   ngAfterViewInit(): void {
     this.prepareScratchLayer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['result'] || changes['scratchComplete'] || changes['showInstructions']) {
+    if (changes['scratchComplete']) {
+      this.syncScratchLayerVisibility();
+    }
+
+    if (changes['result'] || changes['showInstructions']) {
       window.setTimeout(() => this.prepareScratchLayer());
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.fadeTimer) {
+      window.clearTimeout(this.fadeTimer);
     }
   }
 
@@ -83,14 +98,30 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges {
 
     this.canvasContext.setTransform(scale, 0, 0, scale, 0, 0);
     this.canvasContext.globalCompositeOperation = 'source-over';
-    this.canvasContext.fillStyle = '#c7d0da';
+
+    const foilGradient = this.canvasContext.createLinearGradient(0, 0, rect.width, rect.height);
+    foilGradient.addColorStop(0, '#dbe3ea');
+    foilGradient.addColorStop(0.42, '#b9c6d0');
+    foilGradient.addColorStop(1, '#edf2f6');
+    this.canvasContext.fillStyle = foilGradient;
     this.canvasContext.fillRect(0, 0, rect.width, rect.height);
+
+    this.canvasContext.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    this.canvasContext.lineWidth = 2;
+
+    for (let offset = -rect.height; offset < rect.width; offset += 18) {
+      this.canvasContext.beginPath();
+      this.canvasContext.moveTo(offset, 0);
+      this.canvasContext.lineTo(offset + rect.height, rect.height);
+      this.canvasContext.stroke();
+    }
+
     this.canvasContext.fillStyle = '#22303d';
-    this.canvasContext.font = '700 22px Arial, Helvetica, sans-serif';
+    this.canvasContext.font = '800 22px Fraunces, Georgia, serif';
     this.canvasContext.textAlign = 'center';
     this.canvasContext.textBaseline = 'middle';
     this.canvasContext.fillText('Raspa aquí', rect.width / 2, rect.height / 2);
-    this.canvasContext.font = '600 13px Arial, Helvetica, sans-serif';
+    this.canvasContext.font = '800 12px "Nunito Sans", "Trebuchet MS", sans-serif';
     this.canvasContext.fillStyle = '#52606d';
     this.canvasContext.fillText('Desliza con tu dedo', rect.width / 2, rect.height / 2 + 30);
   }
@@ -110,7 +141,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges {
 
     this.canvasContext.globalCompositeOperation = 'destination-out';
     this.canvasContext.beginPath();
-    this.canvasContext.arc(x, y, 24, 0, Math.PI * 2);
+    this.canvasContext.arc(x, y, 26, 0, Math.PI * 2);
     this.canvasContext.fill();
     this.checkRevealProgress();
   }
@@ -134,7 +165,27 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges {
 
     if (transparentPixels / totalPixels >= this.revealThreshold) {
       this.hasEmittedCompletion = true;
+      this.scratchLayerFading = true;
       this.scratched.emit();
     }
+  }
+
+  private syncScratchLayerVisibility(): void {
+    if (!this.scratchComplete) {
+      this.scratchLayerVisible = true;
+      this.scratchLayerFading = false;
+      this.hasEmittedCompletion = false;
+      return;
+    }
+
+    this.scratchLayerFading = true;
+
+    if (this.fadeTimer) {
+      window.clearTimeout(this.fadeTimer);
+    }
+
+    this.fadeTimer = window.setTimeout(() => {
+      this.scratchLayerVisible = false;
+    }, 420);
   }
 }

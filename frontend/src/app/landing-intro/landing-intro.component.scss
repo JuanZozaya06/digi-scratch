@@ -1,20 +1,46 @@
 .panel {
-  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 251, 252, 0.98)),
+    linear-gradient(135deg, rgba(89, 139, 131, 0.14), transparent 42%);
   border: 1px solid #d9e1ea;
   border-radius: 8px;
   box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
   padding: 20px;
 }
 
+.panel::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 5px;
+  height: 74px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(180deg, #598b83, #315f77);
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  top: -32px;
+  right: -58px;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: rgba(89, 139, 131, 0.08);
+  pointer-events: none;
+}
+
 .panel-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
   padding: 8px 12px;
   border-radius: 8px;
-  background: #edf3f8;
-  color: #40688d;
+  background: #e7f1ee;
+  color: #22584f;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -34,23 +60,65 @@ h1 {
   color: #52606d;
 }
 
-.panel-preview {
+.steps-preview {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin: 22px 0;
+  grid-template-columns: 1fr 18px 1fr 18px 1fr;
+  align-items: center;
+  gap: 6px;
+  margin: 24px 0;
 }
 
-.preview-card {
-  min-height: 84px;
+.step-card {
+  position: relative;
+  min-height: 118px;
+  border: 1px solid #d5e0e8;
   border-radius: 8px;
-  border: 1px dashed #c4cfdb;
-  background: linear-gradient(180deg, #f7f9fb 0%, #eef2f6 100%);
+  padding: 12px 9px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 18px rgba(31, 41, 51, 0.06);
   display: flex;
-  align-items: end;
-  padding: 14px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.step-card-featured {
+  border-color: #8eb7ad;
+  background: #f1f8f6;
+}
+
+.step-arrow {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(31, 41, 51, 0.12));
+  opacity: 0.72;
+  z-index: 2;
+}
+
+.step-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #e6eef3;
+  color: #315f77;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.step-card strong {
+  color: #263645;
+  font-size: 0.9rem;
+}
+
+.step-card small {
   color: #6f7b8a;
-  font-weight: 700;
+  font-size: 0.72rem;
+  line-height: 1.25;
 }
 
 .primary-button {
@@ -58,7 +126,7 @@ h1 {
   border: 0;
   border-radius: 8px;
   padding: 16px;
-  background: #5d88b1;
+  background: #315f77;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 700;

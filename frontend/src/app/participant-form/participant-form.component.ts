@@ -25,12 +25,12 @@ export class ParticipantFormComponent implements OnInit {
 
   constructor(private readonly formBuilder: FormBuilder) {
     this.participantForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['Valeria', Validators.required],
+      lastName: ['Morales', Validators.required],
       documentPrefix: ['V', Validators.required],
-      documentNumber: ['', [Validators.required, Validators.pattern(/^\d{6,9}$/)]],
-      phone: ['', [Validators.required, this.phoneValidator()]],
-      email: ['', [Validators.required, Validators.email]]
+      documentNumber: ['18452763', [Validators.required, Validators.pattern(/^\d{6,9}$/)]],
+      phone: ['0412-7364590', [Validators.required, this.phoneValidator()]],
+      email: ['valeria.morales@mail.com', [Validators.required, Validators.email]]
     });
   }
 
