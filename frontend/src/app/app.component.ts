@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Participant, PrizeResult } from './models/promotion.models';
 
-type FlowStep = 'landing' | 'form' | 'scratch';
+type FlowStep = 'landing' | 'form' | 'scratch' | 'instructions';
 
 interface PersistedPromotionState {
   participant: Participant | null;
   result: PrizeResult | null;
+  scratchComplete: boolean;
   step: FlowStep;
 }
 
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
   currentStep: FlowStep = 'landing';
   participant: Participant | null = null;
   result: PrizeResult | null = null;
+  scratchComplete = false;
 
   ngOnInit(): void {
     const savedState = this.readState();
@@ -58,8 +60,19 @@ export class AppComponent implements OnInit {
 
     this.participant = savedState.participant;
     this.result = savedState.result;
+    this.scratchComplete = !!savedState.scratchComplete;
 
-    if (savedState.participant || savedState.result) {
+    if (this.participant && !this.result) {
+      this.result = this.pickRandomResult();
+      this.persistState();
+    }
+
+    if (savedState.step === 'instructions' && savedState.result) {
+      this.currentStep = 'instructions';
+      return;
+    }
+
+    if (savedState.participant) {
       this.currentStep = 'scratch';
     }
   }
@@ -71,24 +84,26 @@ export class AppComponent implements OnInit {
 
   handleParticipantSubmitted(participant: Participant): void {
     this.participant = participant;
-    this.result = null;
+    this.result = this.pickRandomResult();
+    this.scratchComplete = false;
     this.currentStep = 'scratch';
     this.persistState();
   }
 
   revealScratchResult(): void {
-    if (this.result) {
-      return;
-    }
+    this.scratchComplete = true;
+    this.persistState();
+  }
 
-    this.result = this.pickRandomResult();
-    this.currentStep = 'scratch';
+  openInstructions(): void {
+    this.currentStep = 'instructions';
     this.persistState();
   }
 
   restartContest(): void {
     this.participant = null;
     this.result = null;
+    this.scratchComplete = false;
     this.currentStep = 'landing';
     localStorage.removeItem(this.storageKey);
   }
@@ -102,6 +117,7 @@ export class AppComponent implements OnInit {
     const state: PersistedPromotionState = {
       participant: this.participant,
       result: this.result,
+      scratchComplete: this.scratchComplete,
       step: this.currentStep
     };
 

@@ -1,40 +1,59 @@
-<article class="panel" [class.panel-revealed]="result">
-  <div class="panel-badge">{{ result ? 'Resultado' : 'Tu tarjeta' }}</div>
+<article class="panel" [class.panel-revealed]="scratchComplete || showInstructions">
+  <div class="panel-badge">{{ showInstructions ? 'Reclamo de premio' : 'Tu tarjeta' }}</div>
 
-  <ng-container *ngIf="!result">
+  <ng-container *ngIf="!showInstructions">
     <h2>Raspa y descubre</h2>
     <p class="panel-copy">
-      {{ participant?.firstName || 'Participante' }}, desliza sobre la tarjeta para conocer tu resultado.
+      {{ participant?.firstName || 'Participante' }}, desliza sobre la tarjeta para revelar tu resultado.
     </p>
 
-    <button type="button" class="scratch-card" (click)="scratched.emit()">
-      <span class="scratch-label">Raspa aquí</span>
-      <span class="scratch-hint">Desliza sobre esta zona</span>
+    <div class="scratch-stage">
+      <div class="prize-message" *ngIf="result">
+        <span class="result-state" [class.result-state-winner]="result.isWinner">
+          {{ result.isWinner ? 'Ganador' : 'Participación' }}
+        </span>
+        <strong>{{ result.isWinner ? '¡Felicidades!' : 'Gracias por participar' }}</strong>
+        <span *ngIf="result.isWinner">Ganaste {{ result.prizeName }}.</span>
+        <span *ngIf="!result.isWinner">{{ result.label }}</span>
+      </div>
+
+      <canvas
+        *ngIf="result && !scratchComplete"
+        #scratchCanvas
+        class="scratch-layer"
+        (pointerdown)="startScratch($event)"
+        (pointermove)="moveScratch($event)"
+        (pointerup)="stopScratch()"
+        (pointerleave)="stopScratch()"
+        (pointercancel)="stopScratch()"
+      ></canvas>
+    </div>
+
+    <p class="scratch-progress" *ngIf="!scratchComplete">
+      Raspa la mayor parte de la tarjeta para continuar.
+    </p>
+
+    <button
+      *ngIf="scratchComplete && result?.isWinner"
+      type="button"
+      class="primary-button"
+      (click)="instructionsRequested.emit()"
+    >
+      Ver instrucciones
     </button>
   </ng-container>
 
-  <ng-container *ngIf="result">
-    <div class="result-state" [class.result-state-winner]="result.isWinner">
-      {{ result.isWinner ? 'Ganador' : 'Participación' }}
+  <ng-container *ngIf="showInstructions && result && participant">
+    <div class="result-state result-state-winner">
+      Ganador
     </div>
 
-    <h2>{{ result.isWinner ? '¡Felicidades!' : 'Gracias por participar' }}</h2>
-
-    <p class="panel-copy" *ngIf="result.isWinner">
-      Ganaste {{ result.prizeName }}.
-    </p>
-    <p class="panel-copy" *ngIf="!result.isWinner">
-      {{ result.label }}
+    <h2>Reclama tu premio</h2>
+    <p class="panel-copy">
+      Ganaste {{ result.prizeName }}. Dirígete al stand y muestra esta pantalla para validar tus datos.
     </p>
 
-    <p class="result-note" *ngIf="result.isWinner">
-      Dirígete al stand y muestra esta pantalla para validar tus datos y reclamar tu premio.
-    </p>
-    <p class="result-note" *ngIf="!result.isWinner">
-      Tu participación quedó registrada. Gracias por visitarnos.
-    </p>
-
-    <dl class="participant-card" *ngIf="participant">
+    <dl class="participant-card">
       <div>
         <dt>Participante</dt>
         <dd>{{ participant.firstName }} {{ participant.lastName }}</dd>
@@ -52,8 +71,8 @@
         <dd>{{ participant.email }}</dd>
       </div>
       <div>
-        <dt>Resultado</dt>
-        <dd>{{ result.label }}</dd>
+        <dt>Premio</dt>
+        <dd>{{ result.prizeName }}</dd>
       </div>
     </dl>
   </ng-container>
