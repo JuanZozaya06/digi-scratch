@@ -34,6 +34,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
   private canvasContext: CanvasRenderingContext2D | null = null;
   private isScratching = false;
   private hasEmittedCompletion = false;
+  private completionPending = false;
   private fadeTimer: ReturnType<typeof window.setTimeout> | null = null;
   private readonly revealThreshold = 0.5;
 
@@ -63,6 +64,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
     }
 
     this.isScratching = true;
+    this.scratchCanvas?.nativeElement.setPointerCapture(event.pointerId);
     this.eraseAt(event);
   }
 
@@ -74,8 +76,27 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
     this.eraseAt(event);
   }
 
-  stopScratch(): void {
+  stopScratch(event: PointerEvent): void {
+    if (!this.isScratching) {
+      return;
+    }
+
+    const canvas = this.scratchCanvas?.nativeElement;
     this.isScratching = false;
+
+    if (canvas?.hasPointerCapture(event.pointerId)) {
+      canvas.releasePointerCapture(event.pointerId);
+    }
+
+    if (this.completionPending) {
+      this.completeScratch();
+    }
+  }
+
+  requestInstructions(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.instructionsRequested.emit();
   }
 
   private prepareScratchLayer(): void {
@@ -149,7 +170,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
   private checkRevealProgress(): void {
     const canvas = this.scratchCanvas?.nativeElement;
 
-    if (!canvas || !this.canvasContext || this.hasEmittedCompletion) {
+    if (!canvas || !this.canvasContext || this.hasEmittedCompletion || this.completionPending) {
       return;
     }
 
@@ -164,10 +185,23 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
     }
 
     if (transparentPixels / totalPixels >= this.revealThreshold) {
-      this.hasEmittedCompletion = true;
-      this.scratchLayerFading = true;
-      this.scratched.emit();
+      this.completionPending = true;
+
+      if (!this.isScratching) {
+        this.completeScratch();
+      }
     }
+  }
+
+  private completeScratch(): void {
+    if (this.hasEmittedCompletion) {
+      return;
+    }
+
+    this.hasEmittedCompletion = true;
+    this.completionPending = false;
+    this.scratchLayerFading = true;
+    this.scratched.emit();
   }
 
   private syncScratchLayerVisibility(): void {
@@ -175,6 +209,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
       this.scratchLayerVisible = true;
       this.scratchLayerFading = false;
       this.hasEmittedCompletion = false;
+      this.completionPending = false;
       return;
     }
 

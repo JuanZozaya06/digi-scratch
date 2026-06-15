@@ -1,7 +1,7 @@
 <article class="panel ticket" [class.panel-revealed]="scratchComplete || showInstructions">
   <div class="ticket-strip" aria-hidden="true">
-    <span>Ticket promocional</span>
-    <span>Serie A-0248</span>
+    <span>Raspa y GANA</span>
+    <span>Ticket #0248</span>
   </div>
 
   <div class="panel-badge">{{ showInstructions ? 'Reclamo de premio' : 'Tu tarjeta' }}</div>
@@ -31,9 +31,8 @@
         [class.scratch-layer-fading]="scratchLayerFading"
         (pointerdown)="startScratch($event)"
         (pointermove)="moveScratch($event)"
-        (pointerup)="stopScratch()"
-        (pointerleave)="stopScratch()"
-        (pointercancel)="stopScratch()"
+        (pointerup)="stopScratch($event)"
+        (pointercancel)="stopScratch($event)"
       ></canvas>
     </div>
 
@@ -45,7 +44,7 @@
       *ngIf="scratchComplete && result?.isWinner"
       type="button"
       class="primary-button"
-      (click)="instructionsRequested.emit()"
+      (click)="requestInstructions($event)"
     >
       Ver instrucciones
     </button>

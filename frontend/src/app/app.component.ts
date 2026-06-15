@@ -55,6 +55,7 @@ export class AppComponent implements OnInit {
     const savedState = this.readState();
 
     if (!savedState) {
+      this.scrollToTop();
       return;
     }
 
@@ -68,26 +69,27 @@ export class AppComponent implements OnInit {
     }
 
     if (savedState.step === 'instructions' && savedState.result) {
-      this.currentStep = 'instructions';
+      this.setCurrentStep('instructions', false);
       return;
     }
 
     if (savedState.participant) {
-      this.currentStep = 'scratch';
+      this.setCurrentStep('scratch', false);
+      return;
     }
+
+    this.scrollToTop();
   }
 
   startPromotion(): void {
-    this.currentStep = 'form';
-    this.persistState();
+    this.setCurrentStep('form');
   }
 
   handleParticipantSubmitted(participant: Participant): void {
     this.participant = participant;
     this.result = this.pickRandomResult();
     this.scratchComplete = false;
-    this.currentStep = 'scratch';
-    this.persistState();
+    this.setCurrentStep('scratch');
   }
 
   revealScratchResult(): void {
@@ -96,8 +98,7 @@ export class AppComponent implements OnInit {
   }
 
   openInstructions(): void {
-    this.currentStep = 'instructions';
-    this.persistState();
+    this.setCurrentStep('instructions');
   }
 
   restartContest(): void {
@@ -106,6 +107,25 @@ export class AppComponent implements OnInit {
     this.scratchComplete = false;
     this.currentStep = 'landing';
     localStorage.removeItem(this.storageKey);
+    this.scrollToTop();
+  }
+
+  private setCurrentStep(step: FlowStep, shouldPersist = true): void {
+    this.currentStep = step;
+
+    if (shouldPersist) {
+      this.persistState();
+    }
+
+    this.scrollToTop();
+  }
+
+  private scrollToTop(): void {
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
   }
 
   private pickRandomResult(): PrizeResult {
