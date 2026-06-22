@@ -1,0 +1,86 @@
+<main class="login-shell">
+  <section class="login-frame">
+    <aside class="login-aside">
+      <span class="login-badge">{{ mode === 'admin' ? 'Admin' : 'Stand' }}</span>
+      <h1>{{ title }}</h1>
+      <p>{{ subtitle }}</p>
+
+      <div class="aside-card">
+        <strong>Backend conectado</strong>
+        <span>{{ helper }}</span>
+      </div>
+
+      <div class="aside-card aside-card-light" *ngIf="stage === 'setup'">
+        <strong>Paso 2: enrola MFA</strong>
+        <span>Usa el secret o el otpauth URL en Google Authenticator, Authy o Microsoft Authenticator.</span>
+        <img
+          *ngIf="qrCodeDataUrl"
+          [src]="qrCodeDataUrl"
+          alt="Codigo QR para enrolar MFA"
+          class="mfa-qr"
+        >
+        <div class="qr-placeholder" *ngIf="!qrCodeDataUrl">
+          Generando codigo QR...
+        </div>
+        <code>{{ mfaSecret }}</code>
+        <small>{{ otpauthUrl }}</small>
+      </div>
+
+      <div class="aside-card aside-card-light" *ngIf="stage === 'success' && session">
+        <strong>Sesion activa</strong>
+        <span>{{ session.me.name }} ({{ session.me.role }})</span>
+        <small>{{ session.me.email }}</small>
+        <button type="button" class="secondary-button" (click)="logout()" [disabled]="isSubmitting">
+          Cerrar sesion
+        </button>
+      </div>
+    </aside>
+
+    <article class="login-panel">
+      <h2>Iniciar sesion</h2>
+      <p class="login-copy">
+        {{ stage === 'credentials'
+          ? 'Ingresa con tu correo interno y password.'
+          : 'Completa el segundo paso MFA para terminar de autenticarte.' }}
+      </p>
+
+      <div class="feedback success" *ngIf="feedbackMessage">{{ feedbackMessage }}</div>
+      <div class="feedback error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="login-form" *ngIf="stage !== 'success'">
+        <label class="form-field">
+          <span>Correo corporativo</span>
+          <input type="email" formControlName="email" placeholder="nombre@empresa.com" [readonly]="stage !== 'credentials'">
+          <small *ngIf="hasError('email', 'required')">El correo es obligatorio.</small>
+          <small *ngIf="hasError('email', 'email')">Ingresa un correo valido.</small>
+        </label>
+
+        <label class="form-field">
+          <span>Contrasena</span>
+          <input type="password" formControlName="password" placeholder="********" [readonly]="stage !== 'credentials'">
+          <small *ngIf="hasError('password', 'required')">La contrasena es obligatoria.</small>
+        </label>
+
+        <label class="form-field" *ngIf="stage === 'setup' || stage === 'verify'">
+          <span>Codigo MFA</span>
+          <input type="text" formControlName="mfaCode" maxlength="6" placeholder="123456">
+          <small *ngIf="hasError('mfaCode', 'pattern')">El codigo MFA debe tener 6 digitos.</small>
+        </label>
+
+        <button type="submit" class="primary-button" [disabled]="isSubmitting">
+          {{ submitLabel }}
+        </button>
+      </form>
+
+      <div class="session-panel" *ngIf="stage === 'success' && session">
+        <p><strong>Nombre:</strong> {{ session.me.name }}</p>
+        <p><strong>Correo:</strong> {{ session.me.email }}</p>
+        <p><strong>Rol:</strong> {{ session.me.role }}</p>
+        <p><strong>MFA:</strong> {{ session.me.mfaEnabled ? 'Activo' : 'Pendiente' }}</p>
+        <button type="button" class="secondary-button" (click)="logout()" [disabled]="isSubmitting">
+          Cerrar sesion
+        </button>
+      </div>
+    </article>
+  </section>
+</main>

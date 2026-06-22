@@ -35,7 +35,7 @@ export class ScratchCardComponent implements AfterViewInit, OnChanges, OnDestroy
   private isScratching = false;
   private hasEmittedCompletion = false;
   private completionPending = false;
-  private fadeTimer: ReturnType<typeof window.setTimeout> | null = null;
+  private fadeTimer: number | null = null;
   private readonly revealThreshold = 0.5;
 
   ngAfterViewInit(): void {

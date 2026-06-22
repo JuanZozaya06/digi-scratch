@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import { EventPageComponent } from './event-page/event-page.component';
+import { InternalLoginComponent } from './internal-login/internal-login.component';
 import { LandingIntroComponent } from './landing-intro/landing-intro.component';
 import { ParticipantFormComponent } from './participant-form/participant-form.component';
 import { ScratchCardComponent } from './scratch-card/scratch-card.component';
@@ -11,11 +14,13 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        EventPageComponent,
+        InternalLoginComponent,
         LandingIntroComponent,
         ParticipantFormComponent,
         ScratchCardComponent
       ],
-      imports: [ReactiveFormsModule]
+      imports: [ReactiveFormsModule, RouterTestingModule]
     }).compileComponents();
   });
 
@@ -23,11 +28,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it('should start on the landing step', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.currentStep).toBe('landing');
   });
 });

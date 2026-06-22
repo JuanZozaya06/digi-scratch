@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  padding: 12px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 199, 39, 0.26), transparent 32%),
+    linear-gradient(145deg, #eff4f7 0%, #e5edf4 45%, #dbe4ed 100%);
+  display: grid;
+  place-items: center;
+}
+
+.experience-frame {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+}
+
+.event-header {
+  padding: 18px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 44px rgba(49, 87, 125, 0.12);
+}
+
+.event-home {
+  display: inline-flex;
+  text-decoration: none;
+  color: #31577d;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.event-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.event-meta h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+  color: #1d3557;
+}
+
+.event-meta p,
+.event-meta small {
+  margin: 0;
+  color: #4b5967;
+}
+
+.experience-kicker {
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 214, 102, 0.24);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #7b5318;
+}
+
+.contest-reset {
+  width: 100%;
+  border: 1px solid #cbd5df;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #31577d;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.contest-reset:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+@media (min-width: 640px) {
+  .app-shell {
+    padding: 24px 16px;
+  }
+}

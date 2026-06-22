@@ -1,0 +1,50 @@
+<main class="app-shell">
+  <section class="experience-frame">
+    <header class="event-header">
+      <a class="event-home" routerLink="/event/digitel-caracas">Digitel Scratch</a>
+      <div class="event-meta">
+        <span class="experience-kicker">{{ eventBadge }}</span>
+        <h1>{{ eventName }}</h1>
+        <p>{{ eventLocation }}</p>
+        <small>{{ eventSchedule }}</small>
+      </div>
+    </header>
+
+    <app-landing-intro
+      *ngIf="currentStep === 'landing'"
+      (start)="startPromotion()"
+    ></app-landing-intro>
+
+    <app-participant-form
+      *ngIf="currentStep === 'form'"
+      [initialValue]="participant"
+      (submitted)="handleParticipantSubmitted($event)"
+    ></app-participant-form>
+
+    <app-scratch-card
+      *ngIf="currentStep === 'scratch'"
+      [participant]="participant"
+      [result]="result"
+      [scratchComplete]="scratchComplete"
+      (scratched)="revealScratchResult()"
+      (instructionsRequested)="openInstructions()"
+    ></app-scratch-card>
+
+    <app-scratch-card
+      *ngIf="currentStep === 'instructions'"
+      [participant]="participant"
+      [result]="result"
+      [scratchComplete]="true"
+      [showInstructions]="true"
+    ></app-scratch-card>
+
+    <button
+      *ngIf="currentStep !== 'landing' || participant || result"
+      type="button"
+      class="contest-reset"
+      (click)="restartContest()"
+    >
+      Reiniciar concurso
+    </button>
+  </section>
+</main>
